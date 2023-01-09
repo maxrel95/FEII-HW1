@@ -18,14 +18,13 @@ beta = 0.98
 A = beta * np.exp( muD - gamma * muC + 0.5 *
                    ( ( sigmaD * rho - sigmaC * gamma )**2 + sigmaD**2 * ( 1 - rho**2 ) ) )
 
-riskFreeRate = ( 1 / beta ) * np.exp(
-    gamma * muC - 0.5 * gamma**2 * sigmaC** 2 ) - 1
+riskFreeRate = ( 1 / beta ) * np.exp( gamma * muC - 0.5 * gamma**2 * sigmaC** 2 ) - 1
 f = A / ( 1 - A )
-R = ( 1 + f ) / f
+R = ( ( 1 + f ) / f ) * np.exp( muD + 0.5*( sigmaD**2 ) )
 
-print( "RiskfreeRate", round(riskFreeRate*100, 2),"%\n",
-       "P/E", round(f, 2), "\n",
-       "Risky", round( (R-1)*100,2), "%" )
+print( "RiskfreeRate", round(riskFreeRate*100, 3),"%\n",
+       "P/E", round(f, 3), "\n",
+       "Risky", round( (R-1)*100,3), "%" )
 
 pd.DataFrame(
     [round(riskFreeRate*100, 2), round(f, 2), round( (R-1)*100,2)],
@@ -43,7 +42,7 @@ def equityRiskPremium( gamma ):
 
     riskFreeRate = ( 1 / beta ) * np.exp( gamma * muC - 0.5 * gamma ** 2 * sigmaC ** 2 ) - 1
     f = A / (1 - A)
-    R = (1 + f) / f
+    R = ( ( 1 + f ) / f ) * np.exp( muD + 0.5*( sigmaD**2 ) )
     return R - riskFreeRate
 
 gamma = np.arange( 0, 250, 1 )
