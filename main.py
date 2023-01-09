@@ -45,7 +45,7 @@ def equityRiskPremium( gamma ):
     R = ( ( 1 + f ) / f ) * np.exp( muD + 0.5*( sigmaD**2 ) )
     return R - riskFreeRate
 
-gamma = np.arange( 0, 250, 1 )
+gamma = np.arange( 0, 50, 1 )
 ERP = equityRiskPremium( gamma = gamma )
 
 plt.figure()
@@ -74,7 +74,7 @@ corr.to_latex("results/corr.tex")
 
 plt.figure()
 plt.title( "Correlation heatmap" )
-sns.heatmap( corr, annot=True )
+sns.heatmap( corr, annot=True, cmap="ocean" )
 plt.savefig( "correlation.png", dpi=1200 )
 plt.show()
 
@@ -85,7 +85,7 @@ plt.savefig("results/data.png")
 plt.show()
 
 plt.figure()
-plt.plot( (1+data["RealSP500"]).cumprod())
+plt.plot( (1+data["RealSP500"]).cumprod()*100)
 plt.title("S&P500")
 plt.savefig("results/sp500.png")
 plt.show()
@@ -96,13 +96,13 @@ plt.savefig("results/cons.png")
 plt.show()
 
 plt.figure()
-plt.plot((1+data["realIr"])**(12)-1)
+plt.plot((1+data["realIr"]).cumprod())
 plt.title("Real Interest Rate")
 plt.savefig("results/reinte.png")
 plt.show()
 
 plt.figure()
-plt.plot(df["LTIR"])
+df["LTIR"].plot()
 plt.title("Nominal Interest Rate")
 plt.savefig("results/nomIR.png")
 plt.show()
