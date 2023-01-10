@@ -65,7 +65,7 @@ data[ "RealSP500" ] = ((df[ "SP500" ] + df[ "Dividend" ])/df[ "CPI" ]).pct_chang
 data[ 'realIr' ] = (1+df[ 'LTIR' ] / 100)**(1/12) / (1+df[ 'CPI' ].pct_change().dropna()) - 1
 
 stat = pd.DataFrame(
-    [ data.mean( 0 ), data.std( 0 ), data.skew( 0 ), data.kurt( 0 ) ],
+    [ data.mean( 0 )*12*100, data.std( 0 )*np.sqrt(12)*100, data.skew( 0 ), data.kurt( 0 ) ],
     index=[ "Mean", "Standard Dev.", "Skewness", "Kurtosis" ]
 )
 stat.to_latex("results/ex3.tex")
