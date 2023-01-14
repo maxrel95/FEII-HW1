@@ -42,18 +42,42 @@ def equityRiskPremium( gamma ):
 
     riskFreeRate = ( 1 / beta ) * np.exp( gamma * muC - 0.5 * gamma ** 2 * sigmaC ** 2 ) - 1
     f = A / (1 - A)
-    R = ( ( 1 + f ) / f ) * np.exp( muD + 0.5*( sigmaD**2 ) )
+    R = ( ( 1 + f ) / f ) * np.exp( muD + 0.5*( sigmaD**2 ) ) - 1
     return R - riskFreeRate
 
-gamma = np.arange( 0, 250, 1 )
+def equityRateReturn( gamma ):
+    muC, muD = 1.89 / 100, 1.89 / 100
+    sigmaC, sigmaD = 1.5 / 100, 11.2 / 100
+    rho = 0.2
+    beta = 0.98
+
+    A = beta * np.exp( muD - gamma * muC + 0.5 *
+                      ( ( sigmaD * rho - sigmaC * gamma ) ** 2 + sigmaD ** 2 * ( 1 - rho ** 2 ) ) )
+
+    f = A / (1 - A)
+    R = ( ( 1 + f ) / f ) * np.exp( muD + 0.5*( sigmaD**2 ) ) - 1
+    return R 
+
+gamma = np.arange( 0, 50, 1 )
 ERP = equityRiskPremium( gamma = gamma )
+Risky = equityRateReturn( gamma=gamma )
 
 plt.figure()
-plt.plot( gamma, ERP-1 )
+plt.plot( gamma, ERP*100 )
 plt.title( "Equity Risk Premium as a function of risk aversion" )
 plt.xlabel( "gamma" )
-plt.ylabel( "E[R]-Rf" )
+plt.ylabel( "E[R]-Rf in (%)" )
 plt.savefig( "results/ERPGamma.png", dpi=1200 )
+plt.show()
+
+plt.figure()
+plt.plot( gamma, ERP*100 )
+plt.plot( gamma, Risky*100 )
+plt.title( "Equity Risk Premium as a function of risk aversion" )
+plt.legend(["ERP", "Risky"])
+plt.xlabel( "gamma" )
+plt.ylabel( "Rate of Return in (%)" )
+plt.savefig( "results/ERPRiskyGamma.png", dpi=1200 )
 plt.show()
 
 # Exo 3
