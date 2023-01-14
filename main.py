@@ -89,23 +89,18 @@ data[ "RealSP500" ] = ((df[ "SP500" ] + df[ "Dividend" ])/df[ "CPI" ]).pct_chang
 data[ 'realIr' ] = (1+df[ 'LTIR' ] / 100)**(1/12) / (1+df[ 'CPI' ].pct_change().dropna()) - 1
 
 stat = pd.DataFrame(
-    [ data.mean( 0 )*12*100, data.std( 0 )*np.sqrt(12)*100, data.skew( 0 ), data.kurt( 0 ) ],
+    [ data.mean( 0 )*1200, data.std( 0 )*np.sqrt(12)*100, data.skew( 0 ), data.kurt( 0 ) ],
     index=[ "Mean", "Standard Dev.", "Skewness", "Kurtosis" ]
-)
+).round( 3 )
 stat.to_latex("results/ex3.tex")
+
 corr = data.corr()
 corr.to_latex("results/corr.tex")
 
 plt.figure()
 plt.title( "Correlation heatmap" )
 sns.heatmap( corr, annot=True, cmap="ocean" )
-plt.savefig( "correlation.png", dpi=1200 )
-plt.show()
-
-plt.figure()
-plt.plot( data )
-plt.legend(data.columns.tolist())
-plt.savefig("results/data.png", dpi=1200)
+plt.savefig( "results/correlation.png", dpi=1200 )
 plt.show()
 
 plt.figure()
@@ -127,13 +122,6 @@ plt.savefig("results/reinte.png", dpi=1200)
 plt.show()
 
 plt.figure()
-df["LTIR"].plot()
-plt.ylabel("R in (%)")
-plt.title("Nominal Interest Rate")
-plt.savefig("results/nomIR.png", dpi=1200)
-plt.show()
-
-plt.figure()
 plt.plot(df["CPI"].pct_change()*100)
 plt.title("Inflation rate")
 plt.ylabel("Inflation rate in %")
@@ -147,4 +135,23 @@ plt.savefig("results/sp500nom.png", dpi=1200)
 plt.ylabel("Price")
 plt.show()
 
+plt.figure()
+df["LTIR"].plot()
+plt.ylabel("R in (%)")
+plt.title("Nominal Interest Rate")
+plt.savefig("results/nomIR.png", dpi=1200)
+plt.show()
 
+plt.figure()
+df["CPI"].plot()
+plt.ylabel("Price")
+plt.title("Consummer price index")
+plt.savefig("results/CPI.png", dpi=1200)
+plt.show()
+
+plt.figure()
+df["Consumption"].plot()
+plt.ylabel("Price")
+plt.title("Nominal consumption")
+plt.savefig("results/nomConsumption.png", dpi=1200)
+plt.show()
