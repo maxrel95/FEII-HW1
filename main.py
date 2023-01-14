@@ -27,7 +27,7 @@ print( "RiskfreeRate", round(riskFreeRate*100, 3),"%\n",
        "Risky", round( (R-1)*100,3), "%" )
 
 pd.DataFrame(
-    [round(riskFreeRate*100, 2), round(f, 2), round( (R-1)*100,2)],
+    [round( riskFreeRate*100, 2 ), round( f, 2 ), round( ( R-1 )*100,2 ) ],
     index=["RiskfreeRate", "P/E", "ERP"]
 ).to_latex("results/ex1.tex")
 
@@ -43,13 +43,14 @@ def equityRiskPremium( gamma ):
     riskFreeRate = ( 1 / beta ) * np.exp( gamma * muC - 0.5 * gamma ** 2 * sigmaC ** 2 ) - 1
     f = A / (1 - A)
     R = ( ( 1 + f ) / f ) * np.exp( muD + 0.5*( sigmaD**2 ) )
+    riskFreeRate=0
     return R - riskFreeRate
 
-gamma = np.arange( 0, 50, 1 )
+gamma = np.arange( 0, 250, 1 )
 ERP = equityRiskPremium( gamma = gamma )
 
 plt.figure()
-plt.plot( gamma, ERP )
+plt.plot( gamma, ERP-1 )
 plt.title( "Equity Risk Premium as a function of risk aversion" )
 plt.xlabel( "gamma" )
 plt.ylabel( "E[R]-Rf" )
@@ -81,45 +82,45 @@ plt.show()
 plt.figure()
 plt.plot( data )
 plt.legend(data.columns.tolist())
-plt.savefig("results/data.png")
+plt.savefig("results/data.png", dpi=1200)
 plt.show()
 
 plt.figure()
 plt.plot( (1+data["RealSP500"]).cumprod()*100)
 plt.title("S&P500")
-plt.savefig("results/sp500.png")
+plt.savefig("results/sp500.png", dpi=1200)
 plt.show()
 
 plt.plot( data["realConsGrowth"].cumsum())
 plt.title("LogConsumption")
-plt.savefig("results/cons.png")
+plt.savefig("results/cons.png", dpi=1200)
 plt.show()
 
 plt.figure()
 plt.plot((1+data["realIr"]).cumprod())
 plt.title("Real Interest Rate")
 plt.ylabel("R in (%)")
-plt.savefig("results/reinte.png")
+plt.savefig("results/reinte.png", dpi=1200)
 plt.show()
 
 plt.figure()
 df["LTIR"].plot()
 plt.ylabel("R in (%)")
 plt.title("Nominal Interest Rate")
-plt.savefig("results/nomIR.png")
+plt.savefig("results/nomIR.png", dpi=1200)
 plt.show()
 
 plt.figure()
 plt.plot(df["CPI"].pct_change()*100)
 plt.title("Inflation rate")
 plt.ylabel("Inflation rate in %")
-plt.savefig("results/inflation.png")
+plt.savefig("results/inflation.png", dpi=1200)
 plt.show()
 
 plt.figure()
 (df["Dividend"]+df["SP500"]).plot()
 plt.title("Nominal S&P 500")
-plt.savefig("results/sp500nom.png")
+plt.savefig("results/sp500nom.png", dpi=1200)
 plt.ylabel("Price")
 plt.show()
 
