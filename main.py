@@ -43,7 +43,6 @@ def equityRiskPremium( gamma ):
     riskFreeRate = ( 1 / beta ) * np.exp( gamma * muC - 0.5 * gamma ** 2 * sigmaC ** 2 ) - 1
     f = A / (1 - A)
     R = ( ( 1 + f ) / f ) * np.exp( muD + 0.5*( sigmaD**2 ) )
-    riskFreeRate=0
     return R - riskFreeRate
 
 gamma = np.arange( 0, 250, 1 )
